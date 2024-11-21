@@ -65,4 +65,14 @@ public class TemplateEntity {
     public void setCriteria(List<CriterionEntity> criteria) {
         this.criteria = criteria;
     }
+
+    @Override
+    public String toString() {
+        return "TemplateEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", criteria=" + criteria +
+                '}';
+    }
 }
