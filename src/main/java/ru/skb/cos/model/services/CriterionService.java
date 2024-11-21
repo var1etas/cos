@@ -2,6 +2,7 @@ package ru.skb.cos.model.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.skb.cos.controllers.dto.CriterionRequestDto;
 import ru.skb.cos.model.entity.CriterionEntity;
 import ru.skb.cos.repository.CriterionRepository;
 
@@ -16,12 +17,13 @@ public class CriterionService {
         this.criterionRepository = criterionRepository;
     }
 
-    public boolean createCriterion(CriterionEntity criterion) {
-        Optional<CriterionEntity> existCheck = criterionRepository.findById(criterion.getId());
-        if (existCheck.isPresent()) {
+    public boolean createCriterion(CriterionRequestDto criterionDto) {
+        CriterionEntity criterionEntity = new CriterionEntity(criterionDto.name(), criterionDto.description());
+        Optional<CriterionEntity> loadedCriterion = criterionRepository.findById(criterionEntity.getId());
+        if (loadedCriterion.isPresent()) {
             return false;
         }
-        criterionRepository.save(criterion);
+        criterionRepository.save(criterionEntity);
         return true;
     }
 
@@ -33,15 +35,16 @@ public class CriterionService {
         return criterionRepository.findById(id);
     }
 
-    public boolean updateCriterion(Long id, CriterionEntity criterion) {
-        Optional<CriterionEntity> criterionEntity = criterionRepository.findById(id);
-        if (criterionEntity.isEmpty()) {
+    public boolean updateCriterion(Long id, CriterionRequestDto criterionDto) {
+        CriterionEntity criterionEntity = new CriterionEntity(criterionDto.name(), criterionDto.description());
+        Optional<CriterionEntity> loadedCriterion = criterionRepository.findById(id);
+        if (loadedCriterion.isEmpty()) {
             return false;
         }
-        criterionEntity.get().setName(criterion.getName());
-        criterionEntity.get().setDescription(criterion.getDescription());
+        loadedCriterion.get().setName(criterionEntity.getName());
+        loadedCriterion.get().setDescription(criterionEntity.getDescription());
 
-        criterionRepository.save(criterionEntity.get());
+        criterionRepository.save(loadedCriterion.get());
         return true;
     }
 
