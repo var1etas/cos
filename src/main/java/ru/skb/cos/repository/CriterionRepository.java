@@ -5,7 +5,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import ru.skb.cos.model.entity.CriterionEntity;
 
+import java.util.Optional;
+
 @RepositoryRestResource(path = "Criteria")
 public interface CriterionRepository extends CrudRepository<CriterionEntity, Long> {
-    public CriterionEntity findByName(String name);
+    Optional<CriterionEntity> findByName(String name);
 }

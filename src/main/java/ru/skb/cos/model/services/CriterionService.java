@@ -2,10 +2,12 @@ package ru.skb.cos.model.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.skb.cos.controllers.dto.CriterionRequestDto;
+import ru.skb.cos.controllers.dto.CriterionDto;
 import ru.skb.cos.model.entity.CriterionEntity;
 import ru.skb.cos.repository.CriterionRepository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,9 +19,8 @@ public class CriterionService {
         this.criterionRepository = criterionRepository;
     }
 
-    public boolean createCriterion(CriterionRequestDto criterionDto) {
-        CriterionEntity criterionEntity = new CriterionEntity(criterionDto.name(), criterionDto.description());
-        Optional<CriterionEntity> loadedCriterion = criterionRepository.findById(criterionEntity.getId());
+    public boolean createCriterion(CriterionEntity criterionEntity) {
+        Optional<CriterionEntity> loadedCriterion = criterionRepository.findByName(criterionEntity.getName());
         if (loadedCriterion.isPresent()) {
             return false;
         }
@@ -28,15 +29,14 @@ public class CriterionService {
     }
 
     public CriterionEntity getCriterionByName(String name) {
-        return criterionRepository.findByName(name);
+        return criterionRepository.findByName(name).get();
     }
 
     public Optional<CriterionEntity> getCriterionById(Long id) {
         return criterionRepository.findById(id);
     }
 
-    public boolean updateCriterion(Long id, CriterionRequestDto criterionDto) {
-        CriterionEntity criterionEntity = new CriterionEntity(criterionDto.name(), criterionDto.description());
+    public boolean updateCriterion(Long id, CriterionEntity criterionEntity) {
         Optional<CriterionEntity> loadedCriterion = criterionRepository.findById(id);
         if (loadedCriterion.isEmpty()) {
             return false;
@@ -55,5 +55,23 @@ public class CriterionService {
         }
         criterionRepository.delete(criterionEntity.get());
         return true;
+    }
+
+    public List<CriterionEntity> getAllCriteriaById(List<Long> idList) {
+        List<CriterionEntity> criterionEntityList = new ArrayList<>();
+        for(Long id : idList) {
+            Optional<CriterionEntity> criterionEntity = getCriterionById(id);
+            if(criterionEntity.isEmpty()) {
+                return null;
+            }
+            criterionEntityList.add(criterionEntity.get());
+        }
+        return criterionEntityList;
+    }
+
+    public List<CriterionEntity> getAllCriteria() {
+        List<CriterionEntity> criterionEntityList = new ArrayList<>();
+        criterionRepository.findAll().forEach(criterionEntityList::add);
+        return criterionEntityList;
     }
 }
