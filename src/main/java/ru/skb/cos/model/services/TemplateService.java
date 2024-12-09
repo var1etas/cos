@@ -6,6 +6,8 @@ import ru.skb.cos.model.entity.TemplateEntity;
 import ru.skb.cos.repository.CriterionRepository;
 import ru.skb.cos.repository.TemplateRepository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -53,5 +55,9 @@ public class TemplateService {
         return true;
     }
 
-
+    public List<TemplateEntity> getAllTemplates() {
+        List<TemplateEntity> templateEntityList = new ArrayList<>();
+        templateRepository.findAll().forEach(templateEntityList::add);
+        return templateEntityList;
+    }
 }

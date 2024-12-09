@@ -68,4 +68,10 @@ public class CriterionService {
         }
         return criterionEntityList;
     }
+
+    public List<CriterionEntity> getAllCriteria() {
+        List<CriterionEntity> criterionEntityList = new ArrayList<>();
+        criterionRepository.findAll().forEach(criterionEntityList::add);
+        return criterionEntityList;
+    }
 }

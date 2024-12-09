@@ -27,7 +27,7 @@ public class TemplateController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addTemplate(@RequestBody TemplateDto templateDto) {
+    public ResponseEntity<String> createTemplate(@RequestBody TemplateDto templateDto) {
         List<CriterionEntity> criterionEntityList = criterionService.getAllCriteriaById(templateDto.criteriaIdList());
         TemplateEntity template = new TemplateEntity(templateDto.name(), templateDto.description(), criterionEntityList);
         if(!templateService.createTemplate(template)) {
@@ -61,6 +61,11 @@ public class TemplateController {
             return new ResponseEntity<>("Template to delete not found", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<TemplateEntity>> getTemplates() {
+        return new ResponseEntity<>(templateService.getAllTemplates(), HttpStatus.OK);
     }
 
 }
