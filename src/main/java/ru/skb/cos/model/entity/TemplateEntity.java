@@ -14,7 +14,7 @@ public class TemplateEntity {
     String name;
     @Column(nullable = false)
     String description;
-    @OneToMany
+    @ManyToMany
     List<CriterionEntity> criteria;
 
     public TemplateEntity(Long id, String name, String description, List<CriterionEntity> criteria) {
