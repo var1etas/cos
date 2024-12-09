@@ -9,7 +9,6 @@ import ru.skb.cos.model.entity.CriterionEntity;
 import ru.skb.cos.model.services.CriterionService;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @RestController
