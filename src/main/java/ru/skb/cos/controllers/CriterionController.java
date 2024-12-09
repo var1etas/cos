@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.skb.cos.controllers.dto.CriterionRequestDto;
+import ru.skb.cos.controllers.dto.CriterionDto;
 import ru.skb.cos.model.entity.CriterionEntity;
 import ru.skb.cos.model.services.CriterionService;
 
@@ -31,16 +31,18 @@ public class CriterionController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addCriterion(@RequestBody CriterionRequestDto criterionDto) {
-        if(!criterionService.createCriterion(criterionDto)) {
+    public ResponseEntity<String> addCriterion(@RequestBody CriterionDto criterionDto) {
+        CriterionEntity criterion = new CriterionEntity(criterionDto.name(), criterionDto.description());
+        if(!criterionService.createCriterion(criterion)) {
             return new ResponseEntity<>("Criterion already exist", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<String> deleteCriterion(@PathVariable Long id ,@RequestBody CriterionRequestDto criterionDto) {
-        if(!criterionService.updateCriterion(id, criterionDto)) {
+    public ResponseEntity<String> deleteCriterion(@PathVariable Long id ,@RequestBody CriterionDto criterionDto) {
+        CriterionEntity criterion = new CriterionEntity(criterionDto.name(), criterionDto.description());
+        if(!criterionService.updateCriterion(id, criterion)) {
             return new ResponseEntity<>("Criterion to update not found", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(HttpStatus.OK);
