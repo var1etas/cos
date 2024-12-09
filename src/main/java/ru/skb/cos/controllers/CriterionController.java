@@ -57,9 +57,26 @@ public class CriterionController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<CriterionEntity>> getAllCriteria() {
         List<CriterionEntity> criterionList = criterionService.getAllCriteria();
         return new ResponseEntity<>(criterionList, HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<CriterionEntity> getCriteriaByName(@RequestParam String name) {
+        Optional<CriterionEntity> criterion = criterionService.getCriterionByName(name);
+        if (criterion.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(criterion.get(), HttpStatus.OK);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<String> deleteCriteriaByName(@RequestParam String name) {
+        if(!criterionService.deleteCriterionByName(name)) {
+            return new ResponseEntity<>("Criterion to delete not found", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
