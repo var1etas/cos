@@ -63,9 +63,25 @@ public class TemplateController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<TemplateEntity>> getTemplates() {
         return new ResponseEntity<>(templateService.getAllTemplates(), HttpStatus.OK);
     }
 
+    @GetMapping
+    public ResponseEntity<TemplateEntity> getTemplateByName(@RequestParam String name) {
+        Optional<TemplateEntity> templateEntity = templateService.getTemplateByName(name);
+        if(templateEntity.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(templateEntity.get(), HttpStatus.OK);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<String> deleteTemplateByName(@RequestParam String name) {
+        if(!templateService.deleteTemplateByName(name)) {
+            return new ResponseEntity<>("Template to delete not found", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

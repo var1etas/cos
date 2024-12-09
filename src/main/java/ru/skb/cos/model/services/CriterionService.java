@@ -28,8 +28,8 @@ public class CriterionService {
         return true;
     }
 
-    public CriterionEntity getCriterionByName(String name) {
-        return criterionRepository.findByName(name).get();
+    public Optional<CriterionEntity> getCriterionByName(String name) {
+        return criterionRepository.findByName(name);
     }
 
     public Optional<CriterionEntity> getCriterionById(Long id) {
@@ -73,5 +73,14 @@ public class CriterionService {
         List<CriterionEntity> criterionEntityList = new ArrayList<>();
         criterionRepository.findAll().forEach(criterionEntityList::add);
         return criterionEntityList;
+    }
+
+    public boolean deleteCriterionByName(String name) {
+        Optional<CriterionEntity> criterionEntity = criterionRepository.findByName(name);
+        if (criterionEntity.isEmpty()) {
+            return false;
+        }
+        criterionRepository.delete(criterionEntity.get());
+        return true;
     }
 }

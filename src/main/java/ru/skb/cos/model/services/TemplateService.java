@@ -60,4 +60,17 @@ public class TemplateService {
         templateRepository.findAll().forEach(templateEntityList::add);
         return templateEntityList;
     }
+
+    public Optional<TemplateEntity> getTemplateByName(String name) {
+        return templateRepository.findByName(name);
+    }
+
+    public boolean deleteTemplateByName(String name) {
+        Optional<TemplateEntity> loadedTemplate = templateRepository.findByName(name);
+        if (loadedTemplate.isEmpty()) {
+            return false;
+        }
+        templateRepository.delete(loadedTemplate.get());
+        return true;
+    }
 }
