@@ -9,13 +9,13 @@ import java.util.List;
 public class TemplateEntity {
     @Id
     @GeneratedValue
-    Long id;
+    private Long id;
     @Column(nullable = false)
-    String name;
+    private String name;
     @Column(nullable = false)
-    String description;
+    private String description;
     @ManyToMany
-    List<CriterionEntity> criteria;
+    private List<CriterionEntity> criteria;
 
     public TemplateEntity(Long id, String name, String description, List<CriterionEntity> criteria) {
         this.id = id;

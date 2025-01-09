@@ -26,6 +26,11 @@ public class TemplateController {
         this.criterionService = criterionService;
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<List<TemplateEntity>> getTemplates() {
+        return new ResponseEntity<>(templateService.getAllTemplates(), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<String> createTemplate(@RequestBody TemplateDto templateDto) {
         List<CriterionEntity> criterionEntityList = criterionService.getAllCriteriaById(templateDto.criteriaIdList());
@@ -63,10 +68,7 @@ public class TemplateController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<TemplateEntity>> getTemplates() {
-        return new ResponseEntity<>(templateService.getAllTemplates(), HttpStatus.OK);
-    }
+
 
     @GetMapping
     public ResponseEntity<TemplateEntity> getTemplateByName(@RequestParam String name) {

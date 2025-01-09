@@ -7,11 +7,11 @@ import jakarta.persistence.*;
 public class CriterionEntity {
     @Id
     @GeneratedValue
-    Long id;
+    private Long id;
     @Column(nullable = false)
-    String name;
+    private String name;
     @Column(nullable = false)
-    String description;
+    private String description;
 
     public CriterionEntity() {
         super();
@@ -52,12 +52,16 @@ public class CriterionEntity {
         this.description = description;
     }
 
+//    @Override
+//    public String toString() {
+//        return name;
+//    }
+
+
     @Override
     public String toString() {
-        return "CriterionEntity{" +
-                "id=" + id +
+        return "id=" + id +
                 ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+                ", description='" + description;
     }
 }
