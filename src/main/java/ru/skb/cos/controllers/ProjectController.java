@@ -39,7 +39,9 @@ public class ProjectController {
         projectEntity.setName(projectDto.name());
         projectEntity.setDescription(projectDto.description());
         projectEntity.setCriteria(criterionMap);
-        projectService.create(projectEntity);
+        if(projectService.createOrUpdate(projectEntity) == null){
+            return new ResponseEntity<>("Указаное имя прооекта занято", HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -57,7 +59,9 @@ public class ProjectController {
         projectEntity.setName(projectDto.name());
         projectEntity.setDescription(projectDto.description());
         projectEntity.setCriteria(criterionMap);
-        projectService.create(projectEntity);
+        if(projectService.createOrUpdate(projectEntity) == null){
+            return new ResponseEntity<>("Указаное имя прооекта занято", HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

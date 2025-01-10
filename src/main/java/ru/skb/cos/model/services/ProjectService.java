@@ -17,7 +17,10 @@ public class ProjectService {
         this.projectRepository = projectRepository;
     }
 
-    public ProjectEntity create(ProjectEntity projectEntity) {
+    public ProjectEntity createOrUpdate(ProjectEntity projectEntity) {
+        if(projectRepository.findByName(projectEntity.getName()).isPresent()) {
+            return null;
+        }
         return projectRepository.save(projectEntity);
     }
 
