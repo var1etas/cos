@@ -17,8 +17,8 @@ public class ProjectService {
         this.projectRepository = projectRepository;
     }
 
-    public ProjectEntity createOrUpdate(ProjectEntity projectEntity) {
-        if(projectRepository.findByName(projectEntity.getName()).isPresent()) {
+    public ProjectEntity createOrUpdate(ProjectEntity projectEntity, boolean newNameFlag) {
+        if(projectRepository.findByName(projectEntity.getName()).isPresent() && newNameFlag) {
             return null;
         }
         return projectRepository.save(projectEntity);
